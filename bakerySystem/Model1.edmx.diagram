@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1b61b90da37f47fca441649874c5e4e2" Name="Diagram1">
+        <EntityTypeShape EntityType="bakerysystemModel.Cake" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.CakeType" Width="1.5" PointX="1.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.CustomerScreen" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.Log" Width="1.5" PointX="8" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.OrderDetail" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.Staff" Width="1.5" PointX="5.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="bakerysystemModel.StatusType" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="bakerysystemModel.FK_Cake_Cake" ManuallyRouted="false" />
+        <AssociationConnector Association="bakerysystemModel.FK_OrderDetails_Cake" ManuallyRouted="false" />
+        <AssociationConnector Association="bakerysystemModel.FK_CakeTypes_CakeTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="bakerysystemModel.FK_OrderDetails_CustomerScreen" ManuallyRouted="false" />
+        <AssociationConnector Association="bakerysystemModel.FK_Log_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="bakerysystemModel.FK_OrderDetails_StatusTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

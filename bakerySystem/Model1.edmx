@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bakerysystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cake">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cakeName" Type="varchar(max)" Nullable="false" />
+          <Property Name="typeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pricePerSlice" Type="float" Nullable="false" />
+          <Property Name="cakeImage" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CakeTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerScreen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="orderID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="logID" />
+          </Key>
+          <Property Name="logID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="logInTime" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="staffID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cakeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="orderQuantity" Type="int" Nullable="false" />
+          <Property Name="addOnWish" Type="varchar(max)" />
+          <Property Name="orderTotal" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TimeOfOrder" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffIcNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffName" Type="varchar(max)" Nullable="false" />
+          <Property Name="staffPhoneNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="staffPassword" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="statusName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cake_Cake">
+          <End Role="CakeTypes" Type="Self.CakeTypes" Multiplicity="1" />
+          <End Role="Cake" Type="Self.Cake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CakeTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cake">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CakeTypes_CakeTypes">
+          <End Role="CakeTypes" Type="Self.CakeTypes" Multiplicity="1" />
+          <End Role="CakeTypes1" Type="Self.CakeTypes" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CakeTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CakeTypes1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="staffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Cake">
+          <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="cakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_CustomerScreen">
+          <End Role="CustomerScreen" Type="Self.CustomerScreen" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerScreen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="customerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_StatusTypes">
+          <End Role="StatusTypes" Type="Self.StatusTypes" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bakerysystemModelStoreContainer">
+          <EntitySet Name="Cake" EntityType="Self.Cake" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CakeTypes" EntityType="Self.CakeTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerScreen" EntityType="Self.CustomerScreen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusTypes" EntityType="Self.StatusTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cake_Cake" Association="Self.FK_Cake_Cake">
+            <End Role="CakeTypes" EntitySet="CakeTypes" />
+            <End Role="Cake" EntitySet="Cake" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CakeTypes_CakeTypes" Association="Self.FK_CakeTypes_CakeTypes">
+            <End Role="CakeTypes" EntitySet="CakeTypes" />
+            <End Role="CakeTypes1" EntitySet="CakeTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Staff" Association="Self.FK_Log_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Cake" Association="Self.FK_OrderDetails_Cake">
+            <End Role="Cake" EntitySet="Cake" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_CustomerScreen" Association="Self.FK_OrderDetails_CustomerScreen">
+            <End Role="CustomerScreen" EntitySet="CustomerScreen" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_StatusTypes" Association="Self.FK_OrderDetails_StatusTypes">
+            <End Role="StatusTypes" EntitySet="StatusTypes" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bakerysystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cake">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cakeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="typeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pricePerSlice" Type="Double" Nullable="false" />
+          <Property Name="cakeImage" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="CakeType" Relationship="Self.FK_Cake_Cake" FromRole="Cake" ToRole="CakeTypes" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Cake" FromRole="Cake" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="CakeType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Cakes" Relationship="Self.FK_Cake_Cake" FromRole="CakeTypes" ToRole="Cake" />
+          <NavigationProperty Name="CakeTypes1" Relationship="Self.FK_CakeTypes_CakeTypes" FromRole="CakeTypes" ToRole="CakeTypes1" />
+          <NavigationProperty Name="CakeType1" Relationship="Self.FK_CakeTypes_CakeTypes" FromRole="CakeTypes1" ToRole="CakeTypes" />
+        </EntityType>
+        <EntityType Name="CustomerScreen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="orderID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_CustomerScreen" FromRole="CustomerScreen" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="logID" />
+          </Key>
+          <Property Name="logID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="logInTime" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="staffID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Log_Staff" FromRole="Log" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cakeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="customerID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="orderQuantity" Type="Int32" Nullable="false" />
+          <Property Name="addOnWish" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="orderTotal" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TimeOfOrder" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cake" Relationship="Self.FK_OrderDetails_Cake" FromRole="OrderDetails" ToRole="Cake" />
+          <NavigationProperty Name="CustomerScreen" Relationship="Self.FK_OrderDetails_CustomerScreen" FromRole="OrderDetails" ToRole="CustomerScreen" />
+          <NavigationProperty Name="StatusType" Relationship="Self.FK_OrderDetails_StatusTypes" FromRole="OrderDetails" ToRole="StatusTypes" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="staffIcNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="staffName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="staffPhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="staffPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Log_Staff" FromRole="Staff" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="StatusType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="statusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_StatusTypes" FromRole="StatusTypes" ToRole="OrderDetails" />
+        </EntityType>
+        <Association Name="FK_Cake_Cake">
+          <End Role="CakeTypes" Type="Self.CakeType" Multiplicity="1" />
+          <End Role="Cake" Type="Self.Cake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CakeTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Cake">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Cake">
+          <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cake">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="cakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CakeTypes_CakeTypes">
+          <End Role="CakeTypes" Type="Self.CakeType" Multiplicity="1" />
+          <End Role="CakeTypes1" Type="Self.CakeType" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CakeTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CakeTypes1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_CustomerScreen">
+          <End Role="CustomerScreen" Type="Self.CustomerScreen" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerScreen">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="customerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="staffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_StatusTypes">
+          <End Role="StatusTypes" Type="Self.StatusType" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bakerysystemEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cakes" EntityType="Self.Cake" />
+          <EntitySet Name="CakeTypes" EntityType="Self.CakeType" />
+          <EntitySet Name="CustomerScreens" EntityType="Self.CustomerScreen" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="StatusTypes" EntityType="Self.StatusType" />
+          <AssociationSet Name="FK_Cake_Cake" Association="Self.FK_Cake_Cake">
+            <End Role="CakeTypes" EntitySet="CakeTypes" />
+            <End Role="Cake" EntitySet="Cakes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Cake" Association="Self.FK_OrderDetails_Cake">
+            <End Role="Cake" EntitySet="Cakes" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CakeTypes_CakeTypes" Association="Self.FK_CakeTypes_CakeTypes">
+            <End Role="CakeTypes" EntitySet="CakeTypes" />
+            <End Role="CakeTypes1" EntitySet="CakeTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_CustomerScreen" Association="Self.FK_OrderDetails_CustomerScreen">
+            <End Role="CustomerScreen" EntitySet="CustomerScreens" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Staff" Association="Self.FK_Log_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_StatusTypes" Association="Self.FK_OrderDetails_StatusTypes">
+            <End Role="StatusTypes" EntitySet="StatusTypes" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bakerysystemModelStoreContainer" CdmEntityContainer="bakerysystemEntities2">
+          <EntitySetMapping Name="Cakes">
+            <EntityTypeMapping TypeName="bakerysystemModel.Cake">
+              <MappingFragment StoreEntitySet="Cake">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="cakeName" ColumnName="cakeName" />
+                <ScalarProperty Name="typeID" ColumnName="typeID" />
+                <ScalarProperty Name="pricePerSlice" ColumnName="pricePerSlice" />
+                <ScalarProperty Name="cakeImage" ColumnName="cakeImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CakeTypes">
+            <EntityTypeMapping TypeName="bakerysystemModel.CakeType">
+              <MappingFragment StoreEntitySet="CakeTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerScreens">
+            <EntityTypeMapping TypeName="bakerysystemModel.CustomerScreen">
+              <MappingFragment StoreEntitySet="CustomerScreen">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="bakerysystemModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="logID" ColumnName="logID" />
+                <ScalarProperty Name="logInTime" ColumnName="logInTime" />
+                <ScalarProperty Name="staffID" ColumnName="staffID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="bakerysystemModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="cakeID" ColumnName="cakeID" />
+                <ScalarProperty Name="customerID" ColumnName="customerID" />
+                <ScalarProperty Name="orderQuantity" ColumnName="orderQuantity" />
+                <ScalarProperty Name="addOnWish" ColumnName="addOnWish" />
+                <ScalarProperty Name="orderTotal" ColumnName="orderTotal" />
+                <ScalarProperty Name="TimeOfOrder" ColumnName="TimeOfOrder" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="bakerysystemModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="staffIcNo" ColumnName="staffIcNo" />
+                <ScalarProperty Name="staffName" ColumnName="staffName" />
+                <ScalarProperty Name="staffPhoneNo" ColumnName="staffPhoneNo" />
+                <ScalarProperty Name="staffPassword" ColumnName="staffPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusTypes">
+            <EntityTypeMapping TypeName="bakerysystemModel.StatusType">
+              <MappingFragment StoreEntitySet="StatusTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="statusName" ColumnName="statusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
