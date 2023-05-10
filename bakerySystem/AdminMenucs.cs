@@ -13,7 +13,7 @@ namespace bakerySystem
 {
     public partial class AdminMenu : Form
     {
-        bakerysystemEntities2 ent = new bakerysystemEntities2();
+        bakerysystemEntities2 ent = new bakerysystemEntities2();// add db conn
         public AdminMenu()
         {
             InitializeComponent();
